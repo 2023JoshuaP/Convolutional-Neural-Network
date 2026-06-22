@@ -66,6 +66,9 @@ void MLP::backward(const vector<Matrix> &activations, const Matrix &y_true) {
             Matrix dA = delta.dot(weights_[i].transpose());
             Matrix derivative = dA.hadamard(activation_->derivative(activations[i]));
             delta = dA.hadamard(derivative);
+        } else {
+            // Gradiente respecto al input (para CNN backward)
+            input_gradient_ = delta.dot(weights_[0].transpose());
         }
     }
 
@@ -91,6 +94,10 @@ double MLP::mse_loss(const Matrix &y_pred, const Matrix &y_true) {
     }
 
     return sum / diff.data.size();
+}
+
+Matrix MLP::getInputGradient() const {
+    return input_gradient_;
 }
 
 void MLP::shuffle_data(Matrix &X, Matrix &y) {
