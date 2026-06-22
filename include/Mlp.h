@@ -7,6 +7,7 @@
 #include <string>
 #include <random>
 #include <memory>
+#include <numeric>
 
 using namespace std;
 
@@ -20,6 +21,7 @@ class MLP {
         MLP(const vector<int> &layer_sizes, shared_ptr<ActivationFunction> activation, double learning_rate = 0.01, double momentum = 0.9, double weight_decay = 1e-4, int seed = 42);
         vector<Matrix> forward(const Matrix &input) const;
         void backward(const vector<Matrix> &activations, const Matrix &y_true);
+        Matrix getInputGradient() const;
 
         static double mse_loss(const Matrix &y_pred, const Matrix &y_true);
 
@@ -38,6 +40,7 @@ class MLP {
         vector<Matrix> weight_velocities_;
         vector<Matrix> bias_velocities_;
         mt19937 rng_;
+        Matrix input_gradient_;  // gradiente respecto al input para CNN backward
 
-        void suffle_data(Matrix &X, Matrix &y);
+        void shuffle_data(Matrix &X, Matrix &y);
 };
