@@ -1,1 +1,6 @@
 Makefile
+build/
+cnn
+.venv/
+data/
+bloodmnist.npz
