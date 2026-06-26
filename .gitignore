@@ -4,3 +4,5 @@ cnn
 .venv/
 data/
 bloodmnist.npz
+CNN_C__/
+exposition.md
