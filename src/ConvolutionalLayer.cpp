@@ -7,7 +7,7 @@ ConvolutionalLayer::ConvolutionalLayer(int input_channels, int output_channels, 
     double scale = sqrt(2.0 / (input_channels * kernel * kernel));
 
     kernels_.reserve(output_channels);
-    biases_.reserve(output_channels);
+    biases_.resize(output_channels, 0.0);
 
     for (int i = 0; i < output_channels; i++) {
         kernels_.push_back(tensorRandom(input_channels, kernel, kernel, scale, rng));
@@ -47,8 +47,8 @@ Tensor3D ConvolutionalLayer::forward(const Tensor3D& input) {
     input_width_ = input.width;
     input_cache_ = apply_padding(input);
 
-    int output_height = size_out(input_cache_.height, kernel_, stride_, padding_);
-    int output_width = size_out(input_cache_.width, kernel_, stride_, padding_);
+    int output_height = size_out(input.height, kernel_, stride_, padding_);
+    int output_width = size_out(input.width, kernel_, stride_, padding_);
     Tensor3D output(output_channels_, output_height, output_width);
 
     for (int f = 0; f < output_channels_; f++) {

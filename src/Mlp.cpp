@@ -64,8 +64,7 @@ void MLP::backward(const vector<Matrix> &activations, const Matrix &y_true) {
 
         if (i > 0) {
             Matrix dA = delta.dot(weights_[i].transpose());
-            Matrix derivative = dA.hadamard(activation_->derivative(activations[i]));
-            delta = dA.hadamard(derivative);
+            delta = dA.hadamard(activation_->derivative(activations[i]));
         } else {
             // Gradiente respecto al input (para CNN backward)
             input_gradient_ = delta.dot(weights_[0].transpose());
